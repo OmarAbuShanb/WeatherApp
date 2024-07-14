@@ -50,10 +50,6 @@ afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                groupId = "io.omarabushanb"
-                artifactId = "weatherview"
-                version = "1.0-alpha"
-
                 from(components["release"])
             }
         }
