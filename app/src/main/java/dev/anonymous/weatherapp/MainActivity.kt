@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val listDays = listOf(
-            DayModel(13, "1:00", WeatherStatus.Moon),
-            DayModel(12, "2:00", WeatherStatus.NightCloudy),
+            DayModel(0, "1:00", WeatherStatus.Moon),
+            DayModel(1, "2:00", WeatherStatus.NightCloudy),
             DayModel(12, "3:00", WeatherStatus.NightCloudy),
             DayModel(13, "4:00", WeatherStatus.NightCloudy),
             DayModel(14, "5:00", WeatherStatus.NightCloudy),

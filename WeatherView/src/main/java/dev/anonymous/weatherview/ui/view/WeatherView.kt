@@ -1,7 +1,10 @@
 package dev.anonymous.weatherview.ui.view
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewTreeObserver
 import android.widget.HorizontalScrollView
@@ -25,10 +28,22 @@ class WeatherView(context: Context, attrs: AttributeSet) : HorizontalScrollView(
     private var dayWeatherViewPaddingTop: Int = 0
     private var dayWeatherViewCenterX: Int = 0
 
+    private var weatherImageSize: Float? = null
+
+    private var timeTextSize: Float? = null
+    private var timeTextColor: Int? = null
+
+    private var temperatureTextSize: Float? = null
+    private var temperatureTextColor: Int? = null
+
+    private var linesColor: Int? = null
+    private var linesWidth: Float? = null
+
     init {
         initDimensions()
         initWeatherViewHeight()
         initLinerLayout()
+        getAttrs(attrs)
     }
 
     private fun initDimensions() {
@@ -54,6 +69,7 @@ class WeatherView(context: Context, attrs: AttributeSet) : HorizontalScrollView(
                 updateLayoutParams {
                     height = weatherViewHeight
                 }
+                println("removeOnGlobalLayoutListener")
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
@@ -66,8 +82,48 @@ class WeatherView(context: Context, attrs: AttributeSet) : HorizontalScrollView(
         addView(linearLayout)
     }
 
+    private fun getAttrs(attrs: AttributeSet?) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.WeatherView)
+        setTypedArray(typedArray)
+    }
+
+    private fun setTypedArray(typedArray: TypedArray) {
+        for (i in 0..typedArray.indexCount) {
+            when (val attr = typedArray.getIndex(i)) {
+                R.styleable.WeatherView_timeTextSize -> {
+                    timeTextSize = typedArray.getDimension(attr, -1f).takeIf { it != -1f }
+                }
+
+                R.styleable.WeatherView_timeTextColor -> {
+                    timeTextColor = typedArray.getColor(attr, -1).takeIf { it != -1 }
+                }
+
+                R.styleable.WeatherView_weatherImageSize -> {
+                    weatherImageSize = typedArray.getDimension(attr, -1f).takeIf { it != -1f }
+                }
+
+                R.styleable.WeatherView_temperatureTextSize -> {
+                    temperatureTextSize = typedArray.getDimension(attr, -1f).takeIf { it != -1f }
+                }
+
+                R.styleable.WeatherView_temperatureTextColor -> {
+                    temperatureTextColor = typedArray.getColor(attr, -1).takeIf { it != -1 }
+                }
+
+                R.styleable.WeatherView_linesColor -> {
+                    linesColor = typedArray.getColor(attr, -1).takeIf { it != -1 }
+                }
+
+                R.styleable.WeatherView_linesWidth -> {
+                    linesWidth = typedArray.getDimension(attr, -1f).takeIf { it != -1f }
+                }
+            }
+        }
+        typedArray.recycle()
+    }
+
     fun setDaysList(daysList: List<DayModel>) {
-        validationArgument(daysList)
+        validationDaysListArg(daysList)
         val allCenterPointsY = getAllCenterPointsY(daysList)
 
         daysList.forEachIndexed { index, dayModel ->
@@ -104,7 +160,7 @@ class WeatherView(context: Context, attrs: AttributeSet) : HorizontalScrollView(
         }
     }
 
-    private fun validationArgument(daysList: List<DayModel>) {
+    private fun validationDaysListArg(daysList: List<DayModel>) {
         if (daysList.isEmpty()) {
             throw IllegalArgumentException("daysList is empty")
         }
@@ -163,10 +219,22 @@ class WeatherView(context: Context, attrs: AttributeSet) : HorizontalScrollView(
             linearLayout,
             false
         ).apply {
-            tvTime.text = time
-            ivWeather.setImageResource(getWeatherIconRecourse(weatherStatus))
+            timeText.text = time
+            timeTextSize?.let { timeText.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
+            timeTextColor?.let { timeText.setTextColor(it) }
+            weatherImage.setImageResource(getWeatherIconRecourse(weatherStatus))
+            weatherImageSize?.let {
+                weatherImage.updateLayoutParams {
+                    width = it.toInt()
+                    height = it.toInt()
+                }
+            }
+            dayWeather.setAttrs(temperatureTextSize, temperatureTextColor, linesColor, linesWidth)
             dayWeather.setPointsPosition(temperature.toString(), firstPoint, centerPoint, lastPoint)
+            Log.d("TAG_SIZE", "WeatherView: addWeather: setPointsPosition")
+
             linearLayout.addView(root)
+            Log.d("TAG_SIZE", "WeatherView: addWeather: addView")
         }
     }
 

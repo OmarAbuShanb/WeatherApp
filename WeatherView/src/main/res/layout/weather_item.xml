@@ -18,7 +18,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/ivWeather"
+            android:id="@+id/weatherImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:importantForAccessibility="no"
@@ -31,12 +31,12 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/tvTime"
+            android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:19"
-            android:textColor="@android:color/white"
             android:textSize="15sp"
+            android:textColor="@color/timeTextColor"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>

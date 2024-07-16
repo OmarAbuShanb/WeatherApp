@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WeatherView">
+        <attr name="weatherImageSize" format="dimension" />
+        <attr name="timeTextSize" format="dimension" />
+        <attr name="timeTextColor" format="color" />
+        <attr name="temperatureTextSize" format="dimension" />
+        <attr name="temperatureTextColor" format="color" />
+        <attr name="linesColor" format="color" />
+        <attr name="linesWidth" format="dimension" />
+    </declare-styleable>
+</resources>

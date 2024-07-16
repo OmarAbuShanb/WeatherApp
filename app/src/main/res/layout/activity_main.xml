@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <!--    app:timeTextSize="15sp"-->
 
     <dev.anonymous.weatherview.ui.view.WeatherView
         android:id="@+id/weatherView"
@@ -14,6 +15,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:linesColor="#EFD700"
+        app:linesWidth="2.5dp"
+        app:timeTextSize="20sp"
+        app:weatherImageSize="20dp"
+        app:temperatureTextColor="@color/blue"
+        app:timeTextColor="@color/blue"
+        app:temperatureTextSize="13sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

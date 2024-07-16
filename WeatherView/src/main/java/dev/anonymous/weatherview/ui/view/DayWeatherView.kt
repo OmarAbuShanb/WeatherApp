@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import dev.anonymous.weatherview.ui.utils.PositionX
 import dev.anonymous.weatherview.ui.utils.PositionY
@@ -19,18 +20,20 @@ class DayWeatherView(context: Context, attrs: AttributeSet) : View(context, attr
     private val circlePaint = Paint()
     private val circlePath = Path()
 
-    private val textPaint = Paint()
+    private val temperatureTextPaint = Paint()
     private var temperature = ""
-    private var textX = 0f
-    private var textY = 0f
+    private var temperatureTextX = 0f
+    private var temperatureTextY = 0f
 
     init {
         linePaint.color = Color.RED
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeWidth = LINE_STROKE_WIDTH
 
-        textPaint.color = Color.WHITE
-        textPaint.textSize = ScreenUtils.spToPixel(13f, context)
+        temperatureTextPaint.color =
+            if (ScreenUtils.isNightModeEnabled(context)) Color.WHITE else Color.BLACK
+        temperatureTextPaint.textSize = ScreenUtils.spToPixel(13f, context)
+        Log.d("TAG_SIZE", "DayWeatherView: init: ${temperatureTextPaint.textSize}")
 
         circlePaint.color = Color.WHITE
         circlePaint.style = Paint.Style.FILL
@@ -39,12 +42,27 @@ class DayWeatherView(context: Context, attrs: AttributeSet) : View(context, attr
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        Log.d("TAG_SIZE", "DayWeatherView: onDraw")
+
         // draw first and last line and center circle
         canvas.drawPath(linePath, linePaint)
         // draw smaller circle in center circle
         canvas.drawPath(circlePath, circlePaint)
         // draw text above center circle
-        canvas.drawText(temperature, textX, textY, textPaint)
+        canvas.drawText(temperature, temperatureTextX, temperatureTextY, temperatureTextPaint)
+    }
+
+    fun setAttrs(
+        temperatureTextSize: Float?,
+        temperatureTextColor: Int?,
+        linesColor: Int?,
+        linesWidth: Float?
+    ) {
+        temperatureTextSize?.let { temperatureTextPaint.textSize = it }
+        temperatureTextColor?.let { temperatureTextPaint.color = it }
+        linesColor?.let { linePaint.color = it }
+        linesWidth?.let { linePaint.strokeWidth = it }
+        Log.d("TAG_SIZE", "DayWeatherView: setAttrs: $temperatureTextSize")
     }
 
     fun setPointsPosition(
@@ -65,14 +83,16 @@ class DayWeatherView(context: Context, attrs: AttributeSet) : View(context, attr
         }
         // rebuild the view
         invalidate()
+        Log.d("TAG_SIZE", "DayWeatherView: setPointsPosition")
     }
 
     private fun addTemperatureText(centerPoint: Pair<PositionX, PositionY>) {
         val rect = Rect()
-        textPaint.getTextBounds(temperature, 0, temperature.length, rect)
+        temperatureTextPaint.getTextBounds(temperature, 0, temperature.length, rect)
         val textWidth = rect.width()
-        textX = centerPoint.first - (textWidth / 2).toFloat() - 4f
-        textY = centerPoint.second - (CIRCLE_RADIOS / 2) - 30f
+        println("textWidth $textWidth")
+        temperatureTextX = centerPoint.first - (textWidth / 2).toFloat() - 4f
+        temperatureTextY = centerPoint.second - (CIRCLE_RADIOS / 2) - 30f
     }
 
     private fun addFirstLine(

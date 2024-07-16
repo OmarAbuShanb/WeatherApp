@@ -48,6 +48,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.weatherapp)
-//    implementation(project(":WeatherView"))
+//    implementation(libs.weatherapp)
+    implementation(project(":WeatherView"))
 }
