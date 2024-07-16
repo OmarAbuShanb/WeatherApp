@@ -1,17 +1,16 @@
-[![](https://jitpack.io/v/OmarAbuShanb/WeatherApp.svg)](https://jitpack.io/#OmarAbuShanb/WeatherApp)
-
+[![jitpack](https://jitpack.io/v/OmarAbuShanb/WeatherApp.svg)](https://jitpack.io/#OmarAbuShanb/WeatherApp)
+![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)
+![GitHub](https://img.shields.io/github/license/OmarAbuShanb/WeatherApp?color=brightgreen)
 ---
-
-# WeatherView
-
+# 🌦️WeatherView
 A view developed to display weather data with a temperature curve.
 
-## Preview
+## 🎬Preview
 <p align="center">
 <img src="images/preview.gif" width="320">
 <p>
 
-## Setup
+## 💻Setup
 Add the following dependency in your root settings.gradle.kts at the end of repositories:
 ```Gradle
 dependencyResolutionManagement {
@@ -28,8 +27,7 @@ dependencies {
 }
 ```
 
-## Simple usage with Kotlin
-### Kotlin
+## ✍️Simple usage with Kotlin
 
 ```Kotlin
 class MainActivity : AppCompatActivity() {
@@ -68,10 +66,29 @@ class MainActivity : AppCompatActivity() {
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:linesColor="#FFEB3B"
+        app:linesWidth="2.5dp"
+        app:temperatureTextColor="#2196F3"
+        app:temperatureTextSize="13sp"
+        app:timeTextColor="#F44336"
+        app:timeTextSize="15sp"
+        app:weatherImageSize="30dp" />
 ```
 
-## License details
+## 🎨Customisation
+
+| Attribute              |   Type    |                         Default                         | Description                                                       |
+|:-----------------------|:---------:|:-------------------------------------------------------:|:------------------------------------------------------------------|
+| `weatherImageSize`     | dimension |                          30dp                           | the duration of a surround or a release animation in milliseconds |
+| `timeTextSize`         | dimension |                          15sp                           | the width of surrounding stroke                                   |
+| `timeTextColor`        |   color   | Color.WHITE in night mode<br/>Color.BLACK in light mode | the color of surrounding stroke                                   |
+| `temperatureTextSize`  | dimension |                          13sp                           | the starting point of the animation                               |
+| `temperatureTextColor` |   color   |                          false                          | the initial visibility of the stroke                              |
+| `linesColor`           |   color   |                        Color.RED                        | the initial visibility of the stroke                              |
+| `linesWidth`           | dimension |                           4px                           | the initial visibility of the stroke                              |
+
+## 📃License details
 
 ```
 MIT License
